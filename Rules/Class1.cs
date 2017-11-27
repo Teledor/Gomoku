@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rules
+﻿namespace Rules
 {
     public class Class1
     {
