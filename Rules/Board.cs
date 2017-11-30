@@ -8,6 +8,11 @@ namespace Rules
         private readonly int _y;
         private Cell[,] _board;
         
+		public Cell[,] Cell
+		{
+			get { return _board; }
+		}
+
         public Board(int x, int y)
         {
             _x = x;
