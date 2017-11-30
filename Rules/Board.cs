@@ -4,18 +4,14 @@
     {
         private readonly int _x;
         private readonly int _y;
-        private readonly Cell[,] _board;
-        
-		public Cell[,] Cell
-		{
-			get { return _board; }
-		}
+
+        public Cell[,] Cell { get; }
 
         public Board(int x, int y)
         {
             _x = x;
             _y = y;
-            _board = new Cell[x,y];
+            Cell = new Cell[x,y];
             BoardInitializing();
         }
 
@@ -30,28 +26,52 @@
             {
                 for (var n = 0; n < _y ; n++)
                 {
-                    _board[m, n] = new Cell();
+                    Cell[m, n] = new Cell(m, n);
                 }
             }
         }
         
         private bool IsFree(int x, int y)
         {
-            return _board[x, y].State == State.Free;
+            return Cell[x, y].State == State.Free;
         }
 
         // TODO
-        public bool Play(int x, int y)
+        public bool Play(int x, int y, State player)
         {
+            return AddMoveToBoard(x, y, player);
+        }
+
+        private bool AddMoveToBoard(int x, int y, State player)
+        {
+            if (!CanPlay(x, y)) return false;
+            Cell[x, y].State = player;
             return true;
         }
 
-        // TODO
-        public bool AddMoveToBoard(int x, int y, State player)
+        public ref Cell GetLeftCell(int x, int y)
         {
-            return true;
+            return ref Cell[x - 1, y];
         }
-        
-        
+
+        public ref Cell GetRightCell(int x, int y)
+        {
+            return ref Cell[x + 1, y];
+        }
+
+        public ref Cell GetTopCell(int x, int y)
+        {
+            return ref Cell[x, y + 1];
+        }
+
+        public ref Cell GetBottomCell(int x, int y)
+        {
+            return ref Cell[x, y - 1];
+        }
+
+        public ref Cell GetCellAt(int x, int y)
+        {
+            return ref Cell[x, y];
+        }
     }
 }
