@@ -13,17 +13,17 @@ namespace Rules.Test
         }
 
         [Fact]
-        public void Creation_Inferior_To_One_Second()
+        public void Creation_Inferior_To_100_ms()
         {
             var watch = Stopwatch.StartNew();
-            var board = new Board(150, 150);
-            Assert.True(watch.ElapsedMilliseconds < 1000);
+            var board = new Board(19, 19);
+            Assert.True(watch.ElapsedMilliseconds < 100);
         }
 
         [Fact]
         public void Play_In_Board()
         {
-            var board = new Board(15, 15);
+            var board = new Board(19, 19);
             Assert.True(board.CanPlay(3, 5));
         }
     }

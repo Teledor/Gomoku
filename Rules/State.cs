@@ -2,8 +2,8 @@
 {
     public enum State
     {
-        Black,
-        White,
-        Free
+        Black = 0,
+        White = 1,
+        Free = 2
     }
 }

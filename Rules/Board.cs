@@ -1,19 +1,17 @@
-﻿using System;
-
-namespace Rules
+﻿namespace Rules
 {
     public class Board
     {
         private readonly int _x;
         private readonly int _y;
-        private Cell[,] _board;
+        private readonly Cell[,] _board;
         
         public Board(int x, int y)
         {
             _x = x;
             _y = y;
             _board = new Cell[x,y];
-            lol();
+            BoardInitializing();
         }
 
         public bool CanPlay(int x, int y)
@@ -21,7 +19,7 @@ namespace Rules
             return x <= _x && y <= _y && IsFree(x, y);
         }
 
-        public void lol()
+        private void BoardInitializing()
         {
             for (var m = 0; m < _x ; m++)
             {
