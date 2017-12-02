@@ -1,8 +1,8 @@
 ﻿using Rules;
 
-namespace AI
+namespace AI.Interfaces
 {
-    interface IAI
+    internal interface IAi
     {
 		Vector2 Run(ref Cell[,] board);
     }

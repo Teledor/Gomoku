@@ -2,36 +2,15 @@
 {
 	public class Boundary
 	{
-		protected int _xMin;
-		protected int _xMax;
-		protected int _yMin;
-		protected int _yMax;
-
 		#region Properties
 
-		public int XMin
-		{
-			get { return _xMin; }
-			set { _xMin = value; }
-		}
+		public int XMin { get; set; }
 
-		public int XMax
-		{
-			get { return _xMax; }
-			set { _xMax = value; }
-		}
+		public int XMax { get; set; }
 
-		public int YMin
-		{
-			get { return _yMin; }
-			set { _yMin = value; }
-		}
+		public int YMin { get; set; }
 
-		public int YMax
-		{
-			get { return _yMax; }
-			set { _yMax = value; }
-		}
+		public int YMax { get; set; }
 
 		#endregion /* !Properties */
 
@@ -49,19 +28,19 @@
 
 		#endregion /* !Constructors */
 
-		public void SetBoundary(int xMin, int xMax, int yMin, int yMax)
+		private void SetBoundary(int xMin, int xMax, int yMin, int yMax)
 		{
 			SetXBoundary(xMin, xMax);
 			SetYBoundary(yMin, yMax);
 		}
 
-		public void SetXBoundary(int xMin, int xMax)
+		private void SetXBoundary(int xMin, int xMax)
 		{
 			XMin = xMin;
 			XMax = xMax;
 		}
 
-		public void SetYBoundary(int yMin, int yMax)
+		private void SetYBoundary(int yMin, int yMax)
 		{
 			YMin = yMin;
 			YMax = yMax;

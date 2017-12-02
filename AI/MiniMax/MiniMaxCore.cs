@@ -1,20 +1,21 @@
-﻿using Rules;
+﻿using AI.Interfaces;
+using Rules;
 
 namespace AI
 {
-    public partial class MiniMax : IAI
+    public partial class MiniMax : IAi
     {
 		#region ScoreAndPosition
 
 		protected class ScoreAndPosition
 		{
-			public Vector2 position;
-			public int score;
+			public Vector2 Position;
+			public int Score;
 
 			public ScoreAndPosition()
 			{
-				position = Vector2.zero;
-				score = 0;
+				Position = Vector2.Zero;
+				Score = 0;
 			}
 		}
 
@@ -26,37 +27,33 @@ namespace AI
 		/// <param name="board"></param>
 		/// <param name="actionBoundary"></param>
 		/// <returns>best position to play</returns>
-		protected Vector2 GetBestPosition(ref Cell[,] board, ref Boundary actionBoundary)
+		private static Vector2 GetBestPosition(ref Cell[,] board, ref Boundary actionBoundary)
 		{
-			ScoreAndPosition bestBlack = new ScoreAndPosition();
-			ScoreAndPosition bestWhite = new ScoreAndPosition();
-			ScoreAndPosition currentBlack = new ScoreAndPosition();
-			ScoreAndPosition currentWhite = new ScoreAndPosition();
+			var bestBlack = new ScoreAndPosition();
+			var bestWhite = new ScoreAndPosition();
+			var currentBlack = new ScoreAndPosition();
+			var currentWhite = new ScoreAndPosition();
 
-			for (int row = actionBoundary.YMin; row < actionBoundary.YMax; row++)
+			for (var row = actionBoundary.YMin; row < actionBoundary.YMax; row++)
 			{
-				for (int column = actionBoundary.XMin; column < actionBoundary.XMax; column++)
+				for (var column = actionBoundary.XMin; column < actionBoundary.XMax; column++)
 				{
-					if (board[row, column].State == State.Free)
+					if (board[row, column].State != State.Free) continue;
+					currentBlack.Position.SetVector2(column, row);
+					currentWhite.Position.SetVector2(column, row);
+					GetBestScoreAndPositionFromState(ref currentBlack, ref board, ref actionBoundary, State.Black);
+					GetBestScoreAndPositionFromState(ref currentWhite, ref board, ref actionBoundary, State.White);
+					if (bestBlack.Score < currentBlack.Score)
 					{
-						currentBlack.position.SetVector2(column, row);
-						currentWhite.position.SetVector2(column, row);
-						GetBestScoreAndPositionFromState(ref currentBlack, ref board, ref actionBoundary, State.Black);
-						GetBestScoreAndPositionFromState(ref currentWhite, ref board, ref actionBoundary, State.White);
-						if (bestBlack.score < currentBlack.score)
-						{
-							bestBlack.position.SetVector2(column, row);
-							bestBlack.score = currentBlack.score;
-						}
-						if (bestWhite.score < currentWhite.score)
-						{
-							bestWhite.position.SetVector2(column, row);
-							bestWhite.score = currentWhite.score;
-						}
+						bestBlack.Position.SetVector2(column, row);
+						bestBlack.Score = currentBlack.Score;
 					}
+					if (bestWhite.Score >= currentWhite.Score) continue;
+					bestWhite.Position.SetVector2(column, row);
+					bestWhite.Score = currentWhite.Score;
 				}
 			}
-			return ((bestBlack.score > bestWhite.score ? bestBlack.position : bestWhite.position));
+			return ((bestBlack.Score > bestWhite.Score ? bestBlack.Position : bestWhite.Position));
 		}
 
 		/// <summary>
@@ -66,28 +63,28 @@ namespace AI
 		/// <param name="board"></param>
 		/// <param name="actionBoundary"></param>
 		/// <param name="state"></param>
-		protected void GetBestScoreAndPositionFromState(ref ScoreAndPosition scoreAndPosition, ref Cell[,] board,
+		protected static void GetBestScoreAndPositionFromState(ref ScoreAndPosition scoreAndPosition, ref Cell[,] board,
 			ref Boundary actionBoundary, State state)
 		{
 			int score;
 			int tmpScore;
 
 			// Vertical
-			score = GetVerticalScore(ref scoreAndPosition.position, ref board, ref actionBoundary, state);
+			score = GetVerticalScore(ref scoreAndPosition.Position, ref board, ref actionBoundary, state);
 
 			// Horizontal
-			tmpScore = GetHorizontalScore(ref scoreAndPosition.position, ref board, ref actionBoundary, state);
+			tmpScore = GetHorizontalScore(ref scoreAndPosition.Position, ref board, ref actionBoundary, state);
 			score = (tmpScore > score ? tmpScore : score);
 
 			// Top-left to bottom-right
-			tmpScore = GetTopLeftToRightBottomScore(ref scoreAndPosition.position, ref board, ref actionBoundary, state);
+			tmpScore = GetTopLeftToRightBottomScore(ref scoreAndPosition.Position, ref board, ref actionBoundary, state);
 			score = (tmpScore > score ? tmpScore : score);
 
 			// Top-right to bottom-left
-			tmpScore = GetTopRightToLeftBottomScore(ref scoreAndPosition.position, ref board, ref actionBoundary, state);
+			tmpScore = GetTopRightToLeftBottomScore(ref scoreAndPosition.Position, ref board, ref actionBoundary, state);
 			score = (tmpScore > score ? tmpScore : score);
 
-			scoreAndPosition.score = score;
+			scoreAndPosition.Score = score;
 		}
 
 		/// <summary>
@@ -99,14 +96,14 @@ namespace AI
 		/// <param name="actionBoundary"></param>
 		/// <param name="state"></param>
 		/// <returns></returns>
-		protected int GetVerticalScore(ref Vector2 currentPosition, ref Cell[,] board,
+		private static int GetVerticalScore(ref Vector2 currentPosition, ref Cell[,] board,
 			ref Boundary actionBoundary, State state)
 		{
-			int consecutive = 0;
+			var consecutive = 0;
 
-			for (int row = currentPosition.Y - 1; row >= actionBoundary.YMin && board[row, currentPosition.X].State == state; row--)
+			for (var row = currentPosition.Y - 1; row >= actionBoundary.YMin && board[row, currentPosition.X].State == state; row--)
 				consecutive++;
-			for (int row = currentPosition.Y + 1; row < actionBoundary.YMax && board[row, currentPosition.X].State == state; row++)
+			for (var row = currentPosition.Y + 1; row < actionBoundary.YMax && board[row, currentPosition.X].State == state; row++)
 				consecutive++;
 			return (GetScoreFromConsecutive(consecutive));
 		}
@@ -120,15 +117,15 @@ namespace AI
 		/// <param name="actionBoundary"></param>
 		/// <param name="state"></param>
 		/// <returns></returns>
-		protected int GetHorizontalScore(ref Vector2 currentPosition, ref Cell[,] board,
+		private static int GetHorizontalScore(ref Vector2 currentPosition, ref Cell[,] board,
 			ref Boundary actionBoundary, State state)
 		{
-			int consecutive = 0;
+			var consecutive = 0;
 
-			for (int column = currentPosition.X - 1; column >= actionBoundary.XMin
+			for (var column = currentPosition.X - 1; column >= actionBoundary.XMin
 				&& board[currentPosition.Y, column].State == state; column--)
 				consecutive++;
-			for (int column = currentPosition.X + 1; column < actionBoundary.XMax
+			for (var column = currentPosition.X + 1; column < actionBoundary.XMax
 				&& board[currentPosition.Y, column].State == state; column++)
 				consecutive++;
 			return (GetScoreFromConsecutive(consecutive));
@@ -143,13 +140,13 @@ namespace AI
 		/// <param name="actionBoundary"></param>
 		/// <param name="state"></param>
 		/// <returns></returns>
-		protected int GetTopLeftToRightBottomScore(ref Vector2 currentPosition, ref Cell[,] board,
+		private static int GetTopLeftToRightBottomScore(ref Vector2 currentPosition, ref Cell[,] board,
 			ref Boundary actionBoundary, State state)
 		{
-			int consecutive = 0;
+			var consecutive = 0;
 
-			int column = currentPosition.X;
-			int row = currentPosition.Y;
+			var column = currentPosition.X;
+			var row = currentPosition.Y;
 			while (column >= actionBoundary.XMin && row >= actionBoundary.YMin && board[row, column].State == state)
 			{
 				consecutive++;
@@ -176,13 +173,13 @@ namespace AI
 		/// <param name="actionBoundary"></param>
 		/// <param name="state"></param>
 		/// <returns></returns>
-		protected int GetTopRightToLeftBottomScore(ref Vector2 currentPosition, ref Cell[,] board,
+		private static int GetTopRightToLeftBottomScore(ref Vector2 currentPosition, ref Cell[,] board,
 			ref Boundary actionBoundary, State state)
 		{
-			int consecutive = 0;
+			var consecutive = 0;
 
-			int column = currentPosition.X;
-			int row = currentPosition.Y;
+			var column = currentPosition.X;
+			var row = currentPosition.Y;
 			while (column < actionBoundary.XMax && row >= actionBoundary.YMin && board[row, column].State == state)
 			{
 				consecutive++;
@@ -205,7 +202,7 @@ namespace AI
 		/// </summary>
 		/// <param name="consecutive"></param>
 		/// <returns>score</returns>
-		protected int GetScoreFromConsecutive(int consecutive)
+		private static int GetScoreFromConsecutive(int consecutive)
 		{
 			return (consecutive * 1000 + 1);
 		}
@@ -217,7 +214,7 @@ namespace AI
 		/// <returns>Best position to play</returns>
 		public Vector2 Run(ref Cell[,] board)
 		{
-			Boundary actionBoundary = GetActionBoundary(ref board);
+			var actionBoundary = GetActionBoundary(ref board);
 
 			// If first to play
 			if (actionBoundary.XMin == int.MaxValue && actionBoundary.XMax == 0)
