@@ -1,6 +1,6 @@
 ﻿namespace AI
 {
-    class Vector2
+    public class Vector2
     {
 		private int _x;
 		private int _y;
