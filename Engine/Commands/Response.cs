@@ -48,6 +48,7 @@ namespace Engine.Commands
                     Handler.Rectstart(ref board, short.Parse(Args[0]), short.Parse(Args[1]));
                     break;
                 case CommandType.RESTART:
+                    Handler.Restart(ref board);
                     break;
                 case CommandType.TAKEBACK:
                     Handler.Takeback(ref board, short.Parse(Args[0]), short.Parse(Args[1]));

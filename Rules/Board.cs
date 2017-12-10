@@ -7,7 +7,7 @@ namespace Rules
     {
         private readonly int _x;
         private readonly int _y;
-        public Pair<short, short> LastShot;
+        public Pair<short, short> LastShot = new Pair<short, short>();
 
         public Cell[,] Cell;
 
@@ -24,7 +24,7 @@ namespace Rules
             return x <= _x && y <= _y && IsFree(x, y);
         }
 
-        private void BoardInitializing()
+        public void BoardInitializing()
         {
             for (var m = 0; m < _x ; m++)
             {

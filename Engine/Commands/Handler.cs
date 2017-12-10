@@ -70,5 +70,11 @@ namespace Engine.Commands
             board.Cell[y, x].State = State.Free;
             Console.WriteLine("OK");
         }
+
+        public static void Restart(ref Board board)
+        {
+            board.BoardInitializing();
+            Console.WriteLine("OK");
+        }
     }
 }
