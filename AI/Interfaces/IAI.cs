@@ -4,6 +4,6 @@ namespace AI.Interfaces
 {
     internal interface IAi
     {
-		Vector2 Run(ref Cell[,] board);
+		Vector2 Run(ref Cell[,] board, bool begin);
     }
 }

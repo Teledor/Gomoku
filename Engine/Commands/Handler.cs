@@ -20,7 +20,7 @@ namespace Engine.Commands
         {
             var splitted = args[0].Split(',');
             board.Play(short.Parse(splitted[0]), short.Parse(splitted[1]), State.Ennemy);
-            var shot = _ai.Run(ref board.Cell);
+            var shot = _ai.Run(ref board.Cell, false);
             board.Play(shot.X, shot.Y, State.Me);
             Console.WriteLine("{0},{1}", shot.X, shot.Y);
             return true;
@@ -28,7 +28,7 @@ namespace Engine.Commands
 
         public static bool Begin(ref Board board)
         {
-            var shot = _ai.Run(ref board.Cell);
+            var shot = _ai.Run(ref board.Cell, true);
             board.Play(shot.X, shot.Y, State.Me);
             Console.WriteLine("{0},{1}", shot.X, shot.Y);
             return true;

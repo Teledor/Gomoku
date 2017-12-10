@@ -12,9 +12,9 @@ namespace AI
 		private static void AddMargin(ref Boundary actionBoudary, ref Cell[,] board)
 		{
 			actionBoudary.XMin = (actionBoudary.XMin > 0 ? actionBoudary.XMin - 1 : actionBoudary.XMin);
-			actionBoudary.XMax = (actionBoudary.XMax < board.GetLength(1) ? actionBoudary.XMax + 1 : actionBoudary.XMax);
 			actionBoudary.YMin = (actionBoudary.YMin > 0 ? actionBoudary.YMin - 1 : actionBoudary.YMin);
-			actionBoudary.YMax = (actionBoudary.YMax < board.GetLength(0) ? actionBoudary.YMax + 1 : actionBoudary.YMax);
+			actionBoudary.XMax = (actionBoudary.XMax < board.GetLength(1) - 1 ? actionBoudary.XMax + 1 : actionBoudary.XMax);
+			actionBoudary.YMax = (actionBoudary.YMax < board.GetLength(0) - 1 ? actionBoudary.YMax + 1 : actionBoudary.YMax);
 		}
 
 		/// <summary>

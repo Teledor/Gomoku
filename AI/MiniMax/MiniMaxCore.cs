@@ -48,9 +48,11 @@ namespace AI
 						bestBlack.Position.SetVector2(column, row);
 						bestBlack.Score = currentBlack.Score;
 					}
-					if (bestWhite.Score >= currentWhite.Score) continue;
-					bestWhite.Position.SetVector2(column, row);
-					bestWhite.Score = currentWhite.Score;
+					if (bestWhite.Score < currentWhite.Score)
+					{
+						bestWhite.Position.SetVector2(column, row);
+						bestWhite.Score = currentWhite.Score;
+					}
 				}
 			}
 			return ((bestBlack.Score > bestWhite.Score ? bestBlack.Position : bestWhite.Position));
@@ -145,19 +147,19 @@ namespace AI
 		{
 			var consecutive = 0;
 
-			var column = currentPosition.X;
-			var row = currentPosition.Y;
+			var column = currentPosition.X - 1;
+			var row = currentPosition.Y - 1;
 			while (column >= actionBoundary.XMin && row >= actionBoundary.YMin && board[row, column].State == state)
 			{
 				consecutive++;
 				column--;
 				row--;
 			}
-			column = currentPosition.X;
-			row = currentPosition.Y;
+			column = currentPosition.X + 1;
+			row = currentPosition.Y + 1;
 			while (column < actionBoundary.XMax && row < actionBoundary.YMax && board[row, column].State == state)
 			{
-				consecutive--;
+				consecutive++;
 				column++;
 				row++;
 			}
@@ -178,19 +180,19 @@ namespace AI
 		{
 			var consecutive = 0;
 
-			var column = currentPosition.X;
-			var row = currentPosition.Y;
+			var column = currentPosition.X + 1;
+			var row = currentPosition.Y - 1;
 			while (column < actionBoundary.XMax && row >= actionBoundary.YMin && board[row, column].State == state)
 			{
 				consecutive++;
 				column++;
 				row--;
 			}
-			column = currentPosition.X;
-			row = currentPosition.Y;
+			column = currentPosition.X - 1;
+			row = currentPosition.Y + 1;
 			while (column >= actionBoundary.XMin && row < actionBoundary.YMax && board[row, column].State == state)
 			{
-				consecutive--;
+				consecutive++;
 				column--;
 				row++;
 			}
@@ -212,14 +214,17 @@ namespace AI
 		/// </summary>
 		/// <param name="board"></param>
 		/// <returns>Best position to play</returns>
-		public Vector2 Run(ref Cell[,] board)
+		public Vector2 Run(ref Cell[,] board, bool begin)
 		{
 			var actionBoundary = GetActionBoundary(ref board);
 
-			// If first to play
-			if (actionBoundary.XMin == int.MaxValue && actionBoundary.XMax == 0)
-				return (new Vector2(board.GetLength(1) / 2, board.GetLength(0) / 2));
-
+			System.Console.WriteLine("MESSAGE xMin:"
+				+ actionBoundary.XMin
+				+ " xMax:" +  actionBoundary.XMax
+				+ " yMin:" + actionBoundary.YMin
+				+ " yMax:" + actionBoundary.YMax);
+			if (begin)
+				return (new Vector2(board.GetLength(0) / 2, board.GetLength(1) / 2));
 			return (GetBestPosition(ref board, ref actionBoundary));
 		}
     }
