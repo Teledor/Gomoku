@@ -68,6 +68,8 @@ namespace Engine.Commands
                 case CommandType.TAKEBACK:
                     Handler.Takeback(ref board, short.Parse(Args[0]), short.Parse(Args[1]));
                     break;
+                case CommandType.INFO:
+                    break;
                 default:
                     Handler.Unknown();
                     break;

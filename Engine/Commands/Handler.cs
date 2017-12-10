@@ -131,7 +131,7 @@ namespace Engine.Commands
         /// </summary>
         public static void Unknown()
         {
-            Console.WriteLine("UNKOWN");
+            Console.WriteLine("UNKNOWN");
         }
     }
 }

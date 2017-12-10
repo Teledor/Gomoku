@@ -218,15 +218,9 @@ namespace AI
 		{
 			var actionBoundary = GetActionBoundary(ref board);
 
-			System.Console.WriteLine("MESSAGE xMin:"
-				+ actionBoundary.XMin
-				+ " xMax:" +  actionBoundary.XMax
-				+ " yMin:" + actionBoundary.YMin
-				+ " yMax:" + actionBoundary.YMax);
 			if (begin)
 				return (new Vector2(board.GetLength(0) / 2, board.GetLength(1) / 2));
 			var pos = GetBestPosition(ref board, ref actionBoundary);
-			System.Console.WriteLine("MESSAGE [X:" + pos.X + ",Y:" + pos.Y + "] State:" + board[pos.Y, pos.X].State);
 			return (pos);
 		}
     }
