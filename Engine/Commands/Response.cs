@@ -9,11 +9,6 @@ namespace Engine.Commands
         private readonly CommandType _type;
         public string[] Args { get; }
 
-        public Response(string type, params string[] args)
-        {
-            Enum.TryParse(type, out _type);
-        }
-
         public Response(string cmd)
         {
             var final = cmd.Split(' ');
@@ -27,10 +22,9 @@ namespace Engine.Commands
             return _type;
         }
 
-        public bool SendToHandler(ref Board board)
+        public void SendToHandler(ref Board board)
         {
-			Console.WriteLine($"MESSAGE {_type} arg: {Args[0]}");
-            switch(_type)
+            switch (_type)
             {
                 case CommandType.START:
                     Handler.Start(ref board, short.Parse(Args[0]));
@@ -42,36 +36,23 @@ namespace Engine.Commands
                     Handler.Begin(ref board);
                     break;
                 case CommandType.BOARD:
-                    Handler.Board(ref board, Args);
-                    break;
-                case CommandType.INFO:
+                    Handler.Board(ref board);
                     break;
                 case CommandType.END:
+                    Handler.End();
                     break;
                 case CommandType.ABOUT:
+                    Handler.About();
                     break;
                 case CommandType.RECTSTART:
+                    Handler.Rectstart(ref board, short.Parse(Args[0]), short.Parse(Args[1]));
                     break;
                 case CommandType.RESTART:
                     break;
                 case CommandType.TAKEBACK:
+                    Handler.Takeback(ref board, short.Parse(Args[0]), short.Parse(Args[1]));
                     break;
-                case CommandType.PLAY:
-                    break;
-                case CommandType.UNKNOWN:
-                    break;
-                case CommandType.ERROR:
-                    break;
-                case CommandType.MESSAGE:
-                    break;
-                case CommandType.DEBUG:
-                    break;
-                case CommandType.SUGGEST:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
-            return true;
         }
     }
 }

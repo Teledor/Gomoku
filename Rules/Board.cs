@@ -1,9 +1,13 @@
-﻿namespace Rules
+﻿using System;
+using System.Collections.Specialized;
+
+namespace Rules
 {
     public class Board
     {
         private readonly int _x;
         private readonly int _y;
+        public Pair<short, short> LastShot;
 
         public Cell[,] Cell;
 
@@ -43,6 +47,8 @@
 
         private bool AddMoveToBoard(int x, int y, State player)
         {
+            LastShot.First = (short) x;
+            LastShot.Second = (short)y;
             if (!CanPlay(x, y)) return false;
             Cell[y, x].State = player;
             return true;
