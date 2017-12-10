@@ -1,4 +1,6 @@
 ﻿using System;
+using Engine.Commands;
+using Rules;
 
 namespace Engine
 {
@@ -6,7 +8,16 @@ namespace Engine
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Board board = null;
+            var entry = Console.ReadLine();
+
+            if (entry == null) return;
+            while (entry != "END")
+            {
+                var r = new Response(entry);
+                r.SendToHandler(ref board);
+                entry = Console.ReadLine();
+            }
         }
     }
 }

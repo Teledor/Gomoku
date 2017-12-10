@@ -41,8 +41,8 @@ namespace AI
 					if (board[row, column].State != State.Free) continue;
 					currentBlack.Position.SetVector2(column, row);
 					currentWhite.Position.SetVector2(column, row);
-					GetBestScoreAndPositionFromState(ref currentBlack, ref board, ref actionBoundary, State.Black);
-					GetBestScoreAndPositionFromState(ref currentWhite, ref board, ref actionBoundary, State.White);
+					GetBestScoreAndPositionFromState(ref currentBlack, ref board, ref actionBoundary, State.Me);
+					GetBestScoreAndPositionFromState(ref currentWhite, ref board, ref actionBoundary, State.Ennemy);
 					if (bestBlack.Score < currentBlack.Score)
 					{
 						bestBlack.Position.SetVector2(column, row);

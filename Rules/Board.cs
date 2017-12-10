@@ -5,7 +5,7 @@
         private readonly int _x;
         private readonly int _y;
 
-        public Cell[,] Cell { get; }
+        public Cell[,] Cell;
 
         public Board(int x, int y)
         {

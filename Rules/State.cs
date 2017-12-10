@@ -1,9 +1,9 @@
 ﻿namespace Rules
 {
-    public enum State
+    public enum State : short
     {
-        Black = 0,
-        White = 1,
-        Free = 2
+        Me = 1,
+        Ennemy = 2,
+        Free = 3
     }
 }
