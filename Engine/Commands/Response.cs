@@ -29,6 +29,7 @@ namespace Engine.Commands
 
         public bool SendToHandler(ref Board board)
         {
+			Console.WriteLine($"MESSAGE {_type} arg: {Args[0]}");
             switch(_type)
             {
                 case CommandType.START:

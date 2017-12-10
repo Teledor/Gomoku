@@ -11,7 +11,7 @@
         {
             _x = x;
             _y = y;
-            Cell = new Cell[x,y];
+            Cell = new Cell[y, x];
             BoardInitializing();
         }
 
@@ -33,10 +33,9 @@
         
         private bool IsFree(int x, int y)
         {
-            return Cell[x, y].State == State.Free;
+            return Cell[y, x].State == State.Free;
         }
 
-        // TODO
         public bool Play(int x, int y, State player)
         {
             return AddMoveToBoard(x, y, player);
@@ -45,7 +44,7 @@
         private bool AddMoveToBoard(int x, int y, State player)
         {
             if (!CanPlay(x, y)) return false;
-            Cell[x, y].State = player;
+            Cell[y, x].State = player;
             return true;
         }
 

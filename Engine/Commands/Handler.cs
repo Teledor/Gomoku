@@ -23,7 +23,7 @@ namespace Engine.Commands
             var shot = _ai.Run(ref board.Cell, false);
             board.Play(shot.X, shot.Y, State.Me);
             Console.WriteLine("{0},{1}", shot.X, shot.Y);
-            return true;
+			return true;
         }
 
         public static bool Begin(ref Board board)

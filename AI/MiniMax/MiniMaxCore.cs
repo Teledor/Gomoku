@@ -34,9 +34,9 @@ namespace AI
 			var currentBlack = new ScoreAndPosition();
 			var currentWhite = new ScoreAndPosition();
 
-			for (var row = actionBoundary.YMin; row < actionBoundary.YMax; row++)
+			for (var row = actionBoundary.YMin; row <= actionBoundary.YMax; row++)
 			{
-				for (var column = actionBoundary.XMin; column < actionBoundary.XMax; column++)
+				for (var column = actionBoundary.XMin; column <= actionBoundary.XMax; column++)
 				{
 					if (board[row, column].State != State.Free) continue;
 					currentBlack.Position.SetVector2(column, row);
@@ -105,7 +105,7 @@ namespace AI
 
 			for (var row = currentPosition.Y - 1; row >= actionBoundary.YMin && board[row, currentPosition.X].State == state; row--)
 				consecutive++;
-			for (var row = currentPosition.Y + 1; row < actionBoundary.YMax && board[row, currentPosition.X].State == state; row++)
+			for (var row = currentPosition.Y + 1; row <= actionBoundary.YMax && board[row, currentPosition.X].State == state; row++)
 				consecutive++;
 			return (GetScoreFromConsecutive(consecutive));
 		}
@@ -127,7 +127,7 @@ namespace AI
 			for (var column = currentPosition.X - 1; column >= actionBoundary.XMin
 				&& board[currentPosition.Y, column].State == state; column--)
 				consecutive++;
-			for (var column = currentPosition.X + 1; column < actionBoundary.XMax
+			for (var column = currentPosition.X + 1; column <= actionBoundary.XMax
 				&& board[currentPosition.Y, column].State == state; column++)
 				consecutive++;
 			return (GetScoreFromConsecutive(consecutive));
@@ -157,7 +157,7 @@ namespace AI
 			}
 			column = currentPosition.X + 1;
 			row = currentPosition.Y + 1;
-			while (column < actionBoundary.XMax && row < actionBoundary.YMax && board[row, column].State == state)
+			while (column <= actionBoundary.XMax && row <= actionBoundary.YMax && board[row, column].State == state)
 			{
 				consecutive++;
 				column++;
@@ -182,7 +182,7 @@ namespace AI
 
 			var column = currentPosition.X + 1;
 			var row = currentPosition.Y - 1;
-			while (column < actionBoundary.XMax && row >= actionBoundary.YMin && board[row, column].State == state)
+			while (column <= actionBoundary.XMax && row >= actionBoundary.YMin && board[row, column].State == state)
 			{
 				consecutive++;
 				column++;
@@ -190,7 +190,7 @@ namespace AI
 			}
 			column = currentPosition.X - 1;
 			row = currentPosition.Y + 1;
-			while (column >= actionBoundary.XMin && row < actionBoundary.YMax && board[row, column].State == state)
+			while (column >= actionBoundary.XMin && row <= actionBoundary.YMax && board[row, column].State == state)
 			{
 				consecutive++;
 				column--;
@@ -225,7 +225,9 @@ namespace AI
 				+ " yMax:" + actionBoundary.YMax);
 			if (begin)
 				return (new Vector2(board.GetLength(0) / 2, board.GetLength(1) / 2));
-			return (GetBestPosition(ref board, ref actionBoundary));
+			var pos = GetBestPosition(ref board, ref actionBoundary);
+			System.Console.WriteLine("MESSAGE [X:" + pos.X + ",Y:" + pos.Y + "] State:" + board[pos.Y, pos.X].State);
+			return (pos);
 		}
     }
 }
