@@ -21,7 +21,9 @@ namespace Engine.Commands
         {
             if (nb > 0 && nb < short.MaxValue)
                 board = new Board(nb, nb);
-            Console.WriteLine("OK");
+			else
+				Environment.Exit(1);
+			Console.WriteLine("OK");
         }
 
         /// <summary>
