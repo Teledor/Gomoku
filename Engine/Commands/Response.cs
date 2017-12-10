@@ -4,11 +4,18 @@ using Rules;
 
 namespace Engine.Commands
 {
+    /// <summary>
+    /// This class parse the response from the Gomokup manager
+    /// </summary>
     public class Response
     {
         private readonly CommandType _type;
         public string[] Args { get; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="cmd">String sent by the Gomokup manager</param>
         public Response(string cmd)
         {
             var final = cmd.Split(' ');
@@ -17,11 +24,19 @@ namespace Engine.Commands
                 _type = CommandType.UNKNOWN;
         }
 
+        /// <summary>
+        /// Get the parsed command type
+        /// </summary>
+        /// <returns>Command type of the message</returns>
         public CommandType GetCommandType()
         {
             return _type;
         }
 
+        /// <summary>
+        /// Send the command to the handler
+        /// </summary>
+        /// <param name="board">The board we have to pass to the handling function</param>
         public void SendToHandler(ref Board board)
         {
             switch (_type)
@@ -52,6 +67,9 @@ namespace Engine.Commands
                     break;
                 case CommandType.TAKEBACK:
                     Handler.Takeback(ref board, short.Parse(Args[0]), short.Parse(Args[1]));
+                    break;
+                default:
+                    Handler.Unknown();
                     break;
             }
         }

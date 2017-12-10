@@ -1,5 +1,8 @@
 ﻿namespace Rules
 {
+    /// <summary>
+    /// State of a Cell
+    /// </summary>
     public enum State : short
     {
         Me = 1,

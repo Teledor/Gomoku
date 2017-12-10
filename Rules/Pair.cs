@@ -1,15 +1,20 @@
 ﻿namespace Rules
 {
-    public class Pair<T, U> {
+    /// <summary>
+    /// Tuple implementation
+    /// </summary>
+    /// <typeparam name="T">Class one</typeparam>
+    /// <typeparam name="TU">Class two</typeparam>
+    public class Pair<T, TU> {
         public Pair() {
         }
 
-        public Pair(T first, U second) {
-            this.First = first;
-            this.Second = second;
+        public Pair(T first, TU second) {
+            First = first;
+            Second = second;
         }
 
         public T First { get; set; }
-        public U Second { get; set; }
+        public TU Second { get; set; }
     };
 }
